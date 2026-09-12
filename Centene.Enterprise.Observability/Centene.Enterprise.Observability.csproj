@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);CS1591</NoWarn>
+		<!-- Package metadata -->
+		<PackageId>Centene.Enterprise.Observability</PackageId>
+		<Version>0.1.0</Version>
+		<Authors>Centene Enterprise Architecture</Authors>
+		<Company>Centene</Company>
+		<Description>Centene Enterprise Observability SDK for .NET — auto-bootstrapped OpenTelemetry pipeline with Dynatrace, Splunk, and Prometheus support. Reference implementation of the Centene Observability standards (OBS-04, OBS-05, OBS-07, OBS-08).</Description>
+		<PackageTags>observability;opentelemetry;dynatrace;centene;ea;tracing;metrics;logging</PackageTags>
+		<RepositoryUrl>https://gitlab.centene.com/ea/application/app/observability/dotnet/observability</RepositoryUrl>
+		<PackageProjectUrl>https://gitlab.centene.com/ea/ea-documentation</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Copyright>© Centene Corporation</Copyright>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- OpenTelemetry core -->
+		<PackageReference Include="OpenTelemetry" Version="1.16.0" />
+		<PackageReference Include="OpenTelemetry.Api" Version="1.16.0" />
+		<PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.16.0" />
+
+		<!-- Exporters (Zipkin removed - deprecated Dec 2025; OTLP goes to Zipkin's native OTLP endpoint) -->
+		<PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.16.0" />
+		<PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.16.0-beta.1" />
+		<PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.16.0" />
+
+		<!-- Instrumentation -->
+		<PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.16.0" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.16.0" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.15.1" />
+
+	</ItemGroup>
+</Project>
