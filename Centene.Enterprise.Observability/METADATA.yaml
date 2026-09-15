@@ -1,0 +1,66 @@
+artifact:
+  name: "Centene.Enterprise.Observability"
+  type: reusable-library
+  status: proposed
+  version: "0.1.0"
+  tier: 3
+
+domains:
+  - observability
+  - platform-engineering
+
+capabilities:
+  - structured-logging
+  - golden-signal-metrics
+  - distributed-tracing
+  - batch-job-tracing
+  - phi-masking
+  - self-check
+  - graceful-shutdown
+
+technologies:
+  - dotnet-8
+  - opentelemetry
+  - dynatrace
+  - splunk
+  - prometheus
+  - zipkin
+
+compliance:
+  - hipaa
+  - phi-handling
+
+owner: "ea-observability-guild"
+reviewers:
+  - "@ea-team"
+  - "@platform-observability-leads"
+
+last_reviewed: "2026-06-28"
+review_cadence: quarterly
+
+implements_standard:
+  - "standards/observability/obs-04-golden-signals"
+  - "standards/observability/obs-05-structured-logging"
+  - "standards/observability/obs-07-distributed-tracing"
+  - "standards/observability/obs-08-phi-masking"
+
+related_patterns:
+  - "patterns/observability/autobootstrap"
+  - "patterns/observability/oneagent-otlp-fallback"
+
+related_implementations:
+  - "gitlab.centene.com/ea/application/app/observability/golang/observability"
+
+decision_records:
+  - "decisions/ADR-001-adopt-autobootstrap.md"
+
+golden_path:
+  - "golden-paths/new-dotnet-service"
+
+discovery:
+  tags:
+    - observability-as-code
+    - reference-implementation
+    - dotnet
+    - shared-sdk
+  contact: "#ea-observability"
