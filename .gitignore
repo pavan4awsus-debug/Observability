@@ -6,3 +6,8 @@ obj/
 *.suo
 TestResults/
 *.nupkg
+artifacts
+bin
+obj
+launchSettings.json
+.vscode

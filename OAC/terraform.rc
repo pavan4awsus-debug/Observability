@@ -1,0 +1,9 @@
+provider_installation {
+  filesystem_mirror {
+    path    = "C:/terraform/providers"
+    include = ["dynatrace-oss/dynatrace"]
+  }
+  direct {
+    include = ["dynatrace-oss/dynatrace"]
+  }
+}

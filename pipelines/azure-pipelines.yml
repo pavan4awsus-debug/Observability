@@ -1,0 +1,55 @@
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+  sdkVersion: '8.0.x'
+  artifactFeed: 'Centene/EA-Observability'  # Azure Artifacts feed
+
+steps:
+  - task: UseDotNet@2
+    displayName: 'Install .NET 8 SDK'
+    inputs:
+      packageType: 'sdk'
+      version: $(sdkVersion)
+
+  - task: NuGetAuthenticate@1
+    displayName: 'NuGet authenticate'
+
+  - script: dotnet restore Centene.Enterprise.Observability.sln
+    displayName: 'dotnet restore'
+
+  - script: dotnet build Centene.Enterprise.Observability.sln --configuration $(buildConfiguration) --no-restore
+    displayName: 'dotnet build'
+
+  - script: dotnet test Centene.Enterprise.Observability.sln --configuration $(buildConfiguration) --no-build --logger trx
+    displayName: 'dotnet test'
+    continueOnError: false
+
+  - task: PublishTestResults@2
+    displayName: 'Publish test results'
+    inputs:
+      testResultsFormat: 'VSTest'
+      testResultsFiles: '**/*.trx'
+
+  - script: |
+      dotnet pack Centene.Enterprise.Observability/Centene.Enterprise.Observability.csproj \
+        --configuration $(buildConfiguration) \
+        --no-build \
+        --output $(Build.ArtifactStagingDirectory)
+    displayName: 'dotnet pack'
+
+  - task: NuGetCommand@2
+    displayName: 'Publish to Azure Artifacts'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    inputs:
+      command: 'push'
+      packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+      nuGetFeedType: 'internal'
+      publishVstsFeed: $(artifactFeed)
